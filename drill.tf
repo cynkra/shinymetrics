@@ -30,7 +30,7 @@ resource "aws_launch_configuration" "drill" {
   image_id        = data.aws_ami.ubuntu.id
   instance_type   = var.DRILL_INSTANCE_TYPE
   security_groups = [module.drill.security_group_id]
-  user_data       = templatefile("templates/init_drill_ubuntu.tpl", { ssh_keys = [chomp("${file("ssh_keys/wael_key.pub")}")] })
+  user_data       = templatefile("templates/init_drill_ubuntu.tpl", { ssh_keys = [chomp("${file("ssh_keys/john_key.pub")}")] })
 }
 
 resource "aws_autoscaling_policy" "drill_up" {

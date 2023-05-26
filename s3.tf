@@ -1,3 +1,3 @@
-resource "aws_s3_bucket" "drill-cynkra" {
+resource "aws_s3_bucket" "shinymetrics" {
   bucket = var.PROJ
 }

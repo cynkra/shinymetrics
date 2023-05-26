@@ -3,7 +3,7 @@ variable "AWS_REGION" {
 }
 
 variable "PROJ" {
-  default = "cynkra-drill"
+  default = "shinymetrics"
 }
 
 variable "DB_INSTANCE_TYPE" {
