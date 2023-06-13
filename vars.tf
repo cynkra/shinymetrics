@@ -7,7 +7,7 @@ variable "PROJ" {
 }
 
 variable "DNS_DOMAIN" {
-  default = "shinymetrics"
+  default = "shinymetrics.com"
 }
 
 variable "DNS_DOMAIN_PRIVATE" {
