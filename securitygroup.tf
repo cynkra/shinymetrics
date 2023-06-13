@@ -92,7 +92,7 @@ module "allow_mysql" {
   computed_ingress_with_source_security_group_id = [
     {
       rule                     = "mysql-tcp"
-      source_security_group_id = "${module.drill.security_group_id}"
+      source_security_group_id = "${module.app.security_group_id}"
     }
   ]
   number_of_computed_ingress_with_source_security_group_id = 1

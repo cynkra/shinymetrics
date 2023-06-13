@@ -31,7 +31,7 @@ resource "aws_launch_configuration" "drill" {
   instance_type        = var.DRILL_INSTANCE_TYPE
   security_groups      = [module.drill.security_group_id]
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
-  user_data            = templatefile("templates/init_drill_ubuntu.tpl", { ssh_keys = [chomp("${file("ssh_keys/john_key.pub")}")] })
+  user_data            = templatefile("templates/init_drill_ubuntu.tftpl", { ssh_keys = [chomp("${file("ssh_keys/john_key.pub")}")] })
 }
 
 resource "aws_autoscaling_policy" "drill_up" {

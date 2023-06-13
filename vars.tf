@@ -6,6 +6,14 @@ variable "PROJ" {
   default = "shinymetrics"
 }
 
+variable "DNS_DOMAIN" {
+  default = "shinymetrics"
+}
+
+variable "DNS_DOMAIN_PRIVATE" {
+  default = "shinymetrics-prv"
+}
+
 variable "DB_INSTANCE_TYPE" {
   default = "db.t3.micro"
 }
