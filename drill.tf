@@ -26,11 +26,12 @@ resource "aws_autoscaling_group" "drill" {
 }
 
 resource "aws_launch_configuration" "drill" {
-  name_prefix     = "drill-"
-  image_id        = data.aws_ami.ubuntu.id
-  instance_type   = var.DRILL_INSTANCE_TYPE
-  security_groups = [module.drill.security_group_id]
-  user_data       = templatefile("templates/init_drill_ubuntu.tpl", { ssh_keys = [chomp("${file("ssh_keys/john_key.pub")}")] })
+  name_prefix          = "drill-"
+  image_id             = data.aws_ami.ubuntu.id
+  instance_type        = var.DRILL_INSTANCE_TYPE
+  security_groups      = [module.drill.security_group_id]
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+  user_data            = templatefile("templates/init_drill_ubuntu.tpl", { ssh_keys = [chomp("${file("ssh_keys/john_key.pub")}")] })
 }
 
 resource "aws_autoscaling_policy" "drill_up" {
