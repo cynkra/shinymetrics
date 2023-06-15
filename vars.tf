@@ -33,3 +33,7 @@ variable "ZOOKEEPER_INSTANCE_TYPE" {
 variable "BASTION_INSTANCE_TYPE" {
   default = "t3.micro"
 }
+
+variable "CRON_INSTANCE_TYPE" {
+  default = "t3.micro"
+}

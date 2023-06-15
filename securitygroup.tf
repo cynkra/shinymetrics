@@ -1,10 +1,10 @@
-module "bastion" {
+module "bastion_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4.0"
 
-  name        = "ssh_access_unrestricted"
+  name        = "bastion_sg"
   vpc_id      = module.vpc.vpc_id
-  description = "Security group to allow ssh access"
+  description = "Bastion security group"
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = ["ssh-tcp"]
@@ -13,22 +13,42 @@ module "bastion" {
   egress_rules       = ["all-all"]
 }
 
-module "zookeeper" {
+module "cron_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4.0"
 
-  name        = "ssh_access_ip_restricted_internal"
+  name        = "cron_sg"
   vpc_id      = module.vpc.vpc_id
-  description = "Security group to allow IP-restricted ssh access for cynkra team"
+  description = "Cron security group"
 
   computed_ingress_with_source_security_group_id = [
     {
       rule                     = "ssh-tcp"
-      source_security_group_id = "${module.bastion.security_group_id}"
+      source_security_group_id = "${module.bastion_sg.security_group_id}"
+    }
+  ]
+  number_of_computed_ingress_with_source_security_group_id = 1
+
+  egress_cidr_blocks = ["0.0.0.0/0"]
+  egress_rules       = ["all-all"]
+}
+
+module "zookeeper_sg" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "~> 4.0"
+
+  name        = "zookeeper_sg"
+  vpc_id      = module.vpc.vpc_id
+  description = "Zookeeper security group"
+
+  computed_ingress_with_source_security_group_id = [
+    {
+      rule                     = "ssh-tcp"
+      source_security_group_id = "${module.bastion_sg.security_group_id}"
     },
     {
       rule                     = "zookeeper-2181-tcp"
-      source_security_group_id = "${module.drill.security_group_id}"
+      source_security_group_id = "${module.drill_sg.security_group_id}"
     }
   ]
   number_of_computed_ingress_with_source_security_group_id = 2
@@ -37,18 +57,18 @@ module "zookeeper" {
   egress_rules       = ["all-all"]
 }
 
-module "drill" {
+module "drill_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4.0"
 
   name        = "drill_sg"
   vpc_id      = module.vpc.vpc_id
-  description = "Security group for drill servers"
+  description = "Drill security group"
 
   computed_ingress_with_source_security_group_id = [
     {
       rule                     = "ssh-tcp"
-      source_security_group_id = "${module.bastion.security_group_id}"
+      source_security_group_id = "${module.bastion_sg.security_group_id}"
     }
   ]
   number_of_computed_ingress_with_source_security_group_id = 1
@@ -57,22 +77,22 @@ module "drill" {
   egress_rules       = ["all-all"]
 }
 
-module "app" {
+module "app_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4.0"
 
   name        = "app_sg"
   vpc_id      = module.vpc.vpc_id
-  description = "Security group for app servers"
+  description = "App security group"
 
   computed_ingress_with_source_security_group_id = [
     {
       rule                     = "ssh-tcp"
-      source_security_group_id = "${module.bastion.security_group_id}"
+      source_security_group_id = "${module.bastion_sg.security_group_id}"
     },
     {
       rule                     = "http-80-tcp"
-      source_security_group_id = "${module.alb.security_group_id}"
+      source_security_group_id = "${module.alb_sg.security_group_id}"
     }
   ]
   number_of_computed_ingress_with_source_security_group_id = 2
@@ -81,24 +101,24 @@ module "app" {
   egress_rules       = ["all-all"]
 }
 
-module "allow_mysql" {
+module "mysql_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4.0"
 
-  name        = "mysql_access"
+  name        = "mysql_sg"
   vpc_id      = module.vpc.vpc_id
-  description = "Security group to allow mysql access"
+  description = "MySQL security group"
 
   computed_ingress_with_source_security_group_id = [
     {
       rule                     = "mysql-tcp"
-      source_security_group_id = "${module.app.security_group_id}"
+      source_security_group_id = "${module.app_sg.security_group_id}"
     }
   ]
   number_of_computed_ingress_with_source_security_group_id = 1
 }
 
-module "allow_alb" {
+module "alb_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4.0"
 

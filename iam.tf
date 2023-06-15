@@ -1,5 +1,5 @@
-resource "aws_iam_role" "ec2_role" {
-  name = "ec2_role"
+resource "aws_iam_role" "ec2_s3_role" {
+  name = "ec2_s3_role"
 
   assume_role_policy = <<-EOF
     {
@@ -20,7 +20,7 @@ EOF
 
 resource "aws_iam_role_policy" "s3_policy" {
   name = "s3_policy"
-  role = aws_iam_role.ec2_role.id
+  role = aws_iam_role.ec2_s3_role.id
 
   policy = <<-EOF
     {
@@ -38,7 +38,7 @@ resource "aws_iam_role_policy" "s3_policy" {
 EOF
 }
 
-resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "ec2_profile"
-  role = aws_iam_role.ec2_role.name
+resource "aws_iam_instance_profile" "ec2_s3_profile" {
+  name = "ec2_s3_profile"
+  role = aws_iam_role.ec2_s3_role.name
 }

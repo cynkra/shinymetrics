@@ -31,5 +31,5 @@ module "mysql" {
   # DB subnet group (this determines the VPC the DB will be in)
   create_db_subnet_group = true
   subnet_ids             = module.vpc.private_subnets
-  vpc_security_group_ids = [module.allow_mysql.security_group_id]
+  vpc_security_group_ids = [module.mysql_sg.security_group_id]
 }
