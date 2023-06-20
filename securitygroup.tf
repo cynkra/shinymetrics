@@ -113,9 +113,13 @@ module "mysql_sg" {
     {
       rule                     = "mysql-tcp"
       source_security_group_id = "${module.app_sg.security_group_id}"
+    },
+    {
+      rule                     = "mysql-tcp"
+      source_security_group_id = "${module.cron_sg.security_group_id}"
     }
   ]
-  number_of_computed_ingress_with_source_security_group_id = 1
+  number_of_computed_ingress_with_source_security_group_id = 2
 }
 
 module "alb_sg" {
