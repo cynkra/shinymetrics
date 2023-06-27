@@ -13,17 +13,17 @@ module "alb" {
   enable_deletion_protection = true
   http_tcp_listeners = [
     {
-      port     = 80
-      protocol = "HTTP"
-        action_type = "redirect"
-        redirect = {
-          port        = "443"
-          protocol    = "HTTPS"
-          status_code = "HTTP_301"
-        }
+      port        = 80
+      protocol    = "HTTP"
+      action_type = "redirect"
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      }
     }
   ]
-  
+
   https_listeners = [
     {
       port               = 443

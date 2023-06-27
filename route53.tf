@@ -23,7 +23,7 @@ resource "aws_route53_record" "zookeeper" {
 
 resource "aws_route53_record" "shinymetrics" {
   zone_id = aws_route53_zone.shinymetrics.zone_id
-  name    = "${var.DNS_DOMAIN_PRIVATE}"
+  name    = var.DNS_DOMAIN_PRIVATE
   type    = "A"
   alias {
     name                   = module.alb.lb_dns_name
