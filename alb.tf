@@ -9,7 +9,8 @@ module "alb" {
   vpc_id  = module.vpc.vpc_id
   subnets = module.vpc.public_subnets
   # Attach security groups
-  security_groups = [module.alb_sg.security_group_id]
+  security_groups            = [module.alb_sg.security_group_id]
+  enable_deletion_protection = true
   http_tcp_listeners = [
     {
       port     = 80
