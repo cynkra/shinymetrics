@@ -49,9 +49,14 @@ module "zookeeper_sg" {
     {
       rule                     = "zookeeper-2181-tcp"
       source_security_group_id = "${module.drill_sg.security_group_id}"
+    },
+    {
+      rule                     = "zookeeper-2181-tcp"
+      source_security_group_id = "${module.app_sg.security_group_id}"
     }
+
   ]
-  number_of_computed_ingress_with_source_security_group_id = 2
+  number_of_computed_ingress_with_source_security_group_id = 3
 
   egress_cidr_blocks = ["0.0.0.0/0"]
   egress_rules       = ["all-all"]
