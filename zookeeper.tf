@@ -3,7 +3,6 @@ resource "aws_instance" "zookeeper" {
   instance_type          = var.ZOOKEEPER_INSTANCE_TYPE
   user_data              = templatefile("templates/init_zoo_ubuntu.tftpl", { ssh_keys = [chomp("${file("ssh_keys/john_key.pub")}")] })
   vpc_security_group_ids = [module.zookeeper_sg.security_group_id]
-  iam_instance_profile = aws_iam_instance_profile.ec2_s3_profile.name
   subnet_id              = module.vpc.private_subnets[0]
 
   tags = {
