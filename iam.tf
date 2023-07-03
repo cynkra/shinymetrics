@@ -31,7 +31,7 @@ resource "aws_iam_role_policy" "s3_policy" {
                     "s3:*"
                 ],
                 "Effect": "Allow",
-                "Resource": "${aws_s3_bucket.shinymetrics.arn}/*"
+                "Resource": ["${aws_s3_bucket.shinymetrics.arn}", "${aws_s3_bucket.shinymetrics.arn}/*"]
             }
         ]
     }
