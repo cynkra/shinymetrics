@@ -76,7 +76,9 @@ module "drill_sg" {
       source_security_group_id = "${module.bastion_sg.security_group_id}"
     },
     {
-      rule                     = "all-all"
+      from_port                = 31010
+      to_port                  = 31012
+      protocol                 = "tcp"
       source_security_group_id = "${module.zookeeper_sg.security_group_id}"
     }
   ]
