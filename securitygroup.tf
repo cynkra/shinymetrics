@@ -81,13 +81,13 @@ module "drill_sg" {
       protocol                 = "tcp"
       source_security_group_id = "${module.zookeeper_sg.security_group_id}"
     },
-   {
+    {
       from_port                = 31010
       to_port                  = 31012
       protocol                 = "tcp"
       source_security_group_id = "${module.app_sg.security_group_id}"
     }
- 
+
   ]
   number_of_computed_ingress_with_source_security_group_id = 3
 
