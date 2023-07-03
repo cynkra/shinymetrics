@@ -30,6 +30,7 @@ resource "aws_launch_configuration" "app" {
   name_prefix     = "app-"
   image_id        = data.aws_ami.ubuntu.id
   instance_type   = var.APP_INSTANCE_TYPE
+  iam_instance_profile = aws_iam_instance_profile.ec2_s3_profile.name
   security_groups = [module.app_sg.security_group_id]
   user_data       = templatefile("templates/init_app_ubuntu.tftpl", { ssh_keys = [chomp("${file("ssh_keys/john_key.pub")}")], db_url = module.mysql.db_instance_address, db_user = module.mysql.db_instance_username, db_pass = module.mysql.db_instance_password })
 }
